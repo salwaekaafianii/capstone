@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Tukang - Admin Teman Tukang</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_temantukang.png') }}" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --main: #ff9800;
+            --hover: #e68900;
+            --text: #5a5c69;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Nunito", Arial, sans-serif;
+            background: #f8f9fc;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            background: var(--main);
+            color: white;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            font-weight: 700;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, .2);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, .2);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            left: 250px;
+            right: 0;
+            top: 0;
+            height: 70px;
+            background: white;
+            padding: 0 30px;
+            box-shadow: 0 0.15rem 1.75rem rgba(58, 59, 69, .15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .search-box {
+            display: flex;
+        }
+
+        .search-box input {
+            padding: 9px 14px;
+            border-radius: 6px 0 0 6px;
+            border: 1px solid #d1d3e2;
+            width: 260px;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 9px 14px;
+            border: none;
+            background: var(--main);
+            color: white;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+        }
+
+        /* PROFILE */
+        .profile-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+            width: 150px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: #5a5c69;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .profile-dropdown a:hover {
+            background: #f8f9fc;
+        }
+
+        /* CONTENT */
+        .content {
+            margin-left: 250px;
+            padding: 100px 30px 30px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .btn-add {
+            background: var(--main);
+            padding: 10px 18px;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-add:hover {
+            background: var(--hover);
+        }
+
+        /* TABLE */
+        .table-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0.15rem 1.75rem rgba(58, 59, 69, .15);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--main);
+            padding: 14px;
+            color: white;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: #fff7ec;
+        }
+
+        /* ACTION */
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: #3498db;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            Admin Teman Tukang
+        </div>
+        <a href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/admin/akun_tukang"><i class="fas fa-user-cog"></i> Kelola Tukang</a>
+        <a href="/admin/customers"><i class="fas fa-user-friends"></i> Kelola Customer</a>
+        <a href="/admin/tukang"><i class="fas fa-id-card"></i> Detail Tukang</a>
+        <a href="/admin/pesanan"><i class="fas fa-clipboard-list"></i> Kelola Pesanan</a>
+        <a href="/admin/review"><i class="fas fa-star"></i> Review Tukang</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <form class="search-box" method="GET" action="/admin/tukang">
+            <input type="text" name="keyword" placeholder="Cari nama / keahlian..."
+                value="{{ request.args.get('keyword','') }}">
+            <button type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+
+
+        <div class="nav-right">
+            <div class="profile-menu">
+                <i class="fas fa-user-circle"></i>
+
+                <span>
+                    {{ session.get('username', 'Admin') }}
+                </span>
+
+                <i class="fas fa-caret-down"></i>
+
+                <div class="profile-dropdown">
+                    <a href="/logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="page-header">
+            <div class="page-title">Detail Tukang</div>
+            <a href="/admin/tukang/add" class="btn-add">
+                <i class="fas fa-plus"></i> Tambah Tukang
+            </a>
+        </div>
+
+        <div class="table-box">
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Keahlian</th>
+                    <th>Pengalaman</th>
+                    <th>Foto</th>
+                    <th>Rating</th>
+                    <th>Aksi</th>
+                </tr>
+                {% for t in tukang %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ t.nama }}</td>
+                    <td>{{ t.keahlian }}</td>
+                    <td>{{ t.pengalaman }}</td>
+
+                    <td>
+                        {% if t.foto %}
+                        <img src="{{ url_for('static', filename='uploads/' + t.foto) }}" width="80" height="80"
+                            style="object-fit:cover;border-radius:8px;">
+                        {% else %}
+                        <span>-</span>
+                        {% endif %}
+                    </td>
+
+                    <td>0.00</td>
+
+                    <td>
+                        <div class="action-btns">
+                            <a class="btn-edit" href="/admin/tukang/edit/{{ t.id_tukang }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a class="btn-delete" href="/admin/tukang/delete/{{ t.id_tukang }}"
+                                onclick="return confirm('Hapus tukang ini?')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const profileMenu = document.querySelector('.profile-menu');
+        const dropdown = document.querySelector('.profile-dropdown');
+
+        profileMenu.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdown.style.display =
+                dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function () {
+            dropdown.style.display = 'none';
+        });
+    </script>
+
+</body>
+
+</html>

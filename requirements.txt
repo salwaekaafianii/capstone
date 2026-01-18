@@ -1,0 +1,13 @@
+flask
+flask-bcrypt
+flask-cors
+flask-jwt-extended
+mysql-connector-python
+pillow
+numpy
+tensorflow
+scikit-learn
+joblib
+google-auth
+flask-socketio
+

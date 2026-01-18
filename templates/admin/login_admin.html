@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin | Teman Tukang</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .icon-tukang {
+            font-size: 60px;
+            color: #ff8c00;
+            margin-bottom: 10px;
+        }
+
+        .title-orange {
+            color: #ff8c00;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .input-group-custom {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            padding-right: 12px;
+            background-color: #fff;
+        }
+
+        .input-icon {
+            color: #999;
+            padding: 0 14px;
+            font-size: 1.1rem;
+        }
+
+        .input-group-custom input {
+            border: none;
+            width: 100%;
+            height: 46px;
+            font-size: 14px;
+        }
+
+        .input-group-custom input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn-orange-login {
+            background-color: #ff8c00;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 25px;
+            padding: 12px 0;
+            width: 100%;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-orange-login:hover {
+            background-color: #e67e00;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 22px 0;
+            position: relative;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .btn-google {
+            border-radius: 25px;
+            padding: 11px 0;
+            font-weight: 600;
+        }
+
+        .link-bawah {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .link-bawah a {
+            color: #ff8c00;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-container">
+
+            <i class="fa-solid fa-user-shield icon-tukang"></i>
+            <h2 class="title-orange">Login Admin</h2>
+            <p class="subtitle">Masuk sebagai administrator</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} py-2">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <!-- LOGIN EMAIL -->
+            <form method="POST">
+                <div class="input-group-custom">
+                    <span class="input-icon"><i class="bi bi-envelope"></i></span>
+                    <input type="email" name="email" placeholder="Email Admin" required>
+                </div>
+
+                <div class="input-group-custom">
+                    <span class="input-icon"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <button class="btn-orange-login mt-2" type="submit">
+                    Login
+                </button>
+            </form>
+
+            <div class="divider">atau</div>
+
+            <!-- GOOGLE LOGIN -->
+            <a href="{{ url_for('login_google') }}" class="btn btn-outline-danger w-100 btn-google">
+                <i class="fab fa-google me-2"></i> Login dengan Google
+            </a>
+
+            <div class="link-bawah">
+                <p style="color:#606060; font-weight:600;">
+                    Belum punya akun?
+                    <a href="{{ url_for('register_admin_route') }}">Daftar</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
